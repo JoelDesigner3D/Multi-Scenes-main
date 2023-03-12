@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ChangeDestinationScript : MonoBehaviour
 {
-
+    /*
     [SerializeField] int sceneIndex;
 
 
@@ -18,5 +18,5 @@ public class ChangeDestinationScript : MonoBehaviour
 
         SceneManager.LoadScene(sceneIndex);
     }
-
+    */
 }

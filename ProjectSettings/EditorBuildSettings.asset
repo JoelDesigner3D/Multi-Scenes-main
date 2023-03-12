@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hospice.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Cabin_Toilet.unity
+    guid: 2de51d1e306e44440a700c31800a996b
   m_configObjects: {}

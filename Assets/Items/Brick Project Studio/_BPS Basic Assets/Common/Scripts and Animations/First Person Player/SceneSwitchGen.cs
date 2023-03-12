@@ -50,7 +50,7 @@ namespace SojaExiles
 
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                SceneManager.LoadScene("Props Furniture Showcase");
+               SceneManager.LoadScene("Props Furniture Showcase");
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))

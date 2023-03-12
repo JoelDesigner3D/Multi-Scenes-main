@@ -9,10 +9,10 @@ public class MainManager : MonoBehaviour
 {
 
     public static MainManager Instance;
-    public float volume;
+    [SerializeField] private float volume;
 
     // Used to respown in specific room of scene
-    private Vector3 FPSPosition;
+    private string FPSLocation = "";
 
     void Awake()
     {
@@ -64,14 +64,19 @@ public class MainManager : MonoBehaviour
                 sceneIndex = 5;
                 break;
 
+            case "Cabin_Toilet":
+                sceneIndex = 6;
+                break;
+
             default:
                 sceneIndex = 0;
                 break;
         }
 
         SceneManager.LoadScene(sceneIndex);
+       
     }
-
+    
     public void QuitGame()
     {
         Debug.Log("Quit Game ! By by");
@@ -81,17 +86,39 @@ public class MainManager : MonoBehaviour
         // afficher message bon débarras !
     }
 
-    public void SetFPSPosition(Vector3 fpsPosition)
+    /*
+     * ===================================
+     *          GETTERS / SETTERS
+     * ===================================
+     * 
+     */
+
+    public void SetFPSLocation(string fpsLocation)
     {
-        if (fpsPosition != null)
+        if (fpsLocation != "")
         {
-            FPSPosition = fpsPosition;
+            FPSLocation = fpsLocation;
         }
     }
 
-    public Vector3 GetFPSPosition()
+    public string GetFPSLocation()
     {
-        return FPSPosition;
+        return FPSLocation;
+    }
+
+    public void SetVolume(float _volume)
+    {
+        if (_volume < 0)
+        {
+            _volume = 0;
+        }
+
+        this.volume = _volume;
+    }
+
+    public float GetVolume()
+    {
+        return volume;
     }
 
 

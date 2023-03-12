@@ -18,6 +18,14 @@ public class GeneralMenuManager : MonoBehaviour
         MainManager.Instance.GoTo("Cabin");
     }
 
+    public void EnterToCabinToilet()
+    {
+        //Debug.Log("GoTo Cabin");
+        //MainManager.Instance.SetFPSLocation("Toilet");
+        //MainManager.Instance.GoTo("Cabin");
+        MainManager.Instance.GoTo("Cabin_Toilet");
+    }
+
     public void EnterToHospital()
     {
         MainManager.Instance.GoTo("Hospital");
