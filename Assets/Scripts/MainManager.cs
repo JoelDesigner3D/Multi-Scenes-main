@@ -5,14 +5,17 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 
+//[DefaultExecutionOrder(1000)]
 public class MainManager : MonoBehaviour
 {
-
     public static MainManager Instance;
-    [SerializeField] private float volume;
 
-    // Used to respown in specific room of scene
-    private string FPSLocation = "";
+    private float volume;
+    private Vector3 savedPosition;
+    private Quaternion savedRotation;
+    private int savedSceneIndex;
+
+    public bool newGame = true;
 
     void Awake()
     {
@@ -28,6 +31,14 @@ public class MainManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        Debug.Log("=========  NEW GAME ==========");
+        //Debug.Log("MainManager > start activeScene = " + SceneManager.GetActiveScene().buildIndex);
+        //Debug.Log("MainManager > start savedScene = " + savedSceneIndex);
+        //InitGame();
+    }
+
     public void GoToGeneralMenu()
     {
         GoTo("MenuGene");
@@ -35,7 +46,6 @@ public class MainManager : MonoBehaviour
 
     public void GoTo(string sceneName)
     {
-
         int sceneIndex = 0;
 
         switch (sceneName)
@@ -73,18 +83,89 @@ public class MainManager : MonoBehaviour
                 break;
         }
 
+        newGame = false;
         SceneManager.LoadScene(sceneIndex);
        
     }
     
     public void QuitGame()
     {
-        Debug.Log("Quit Game ! By by");
+       // Debug.Log("MainManager > QuitGame savedSceneIndex = "+ this.savedSceneIndex);
+
+        SavePlayerPrefs();
+
         //Application.Quit();
         EditorApplication.ExecuteMenuItem("Edit/Play");
 
-        // afficher message bon débarras !
+        //TODO afficher message bon débarras !
     }
+
+    /*
+    public void InitGame()
+    {
+        Debug.Log("MainManager > InitGame  savedSceneIndex : "+ savedSceneIndex);
+
+        LoadPlayerPrefs();
+
+        if (savedSceneIndex > 1)
+        {
+            // SceneManager.LoadScene(savedSceneIndex);
+            Debug.Log("Display BackMenu > savedSceneIndex = "+ savedSceneIndex);
+            mainSceneController.displayBackMenu();
+        }
+        else
+        {
+            Debug.Log("Display WelcomeMenu");
+            mainSceneController.displayWelcomeMenu();
+        }
+        
+    }
+    */
+
+    public void GoToSceneByIndex(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
+
+
+    public void SavePlayerPrefs()
+    {
+
+        Debug.Log("=========  SAVE PREFS ==========");
+        Debug.Log("savedSceneIndex : "+ this.GetSavedSceneIndex());
+
+        PlayerPrefs.SetFloat("MainVolume", this.GetVolume());
+
+        PlayerPrefs.SetInt("SceneIndex", this.GetSavedSceneIndex());
+
+        string playerPosition = JsonUtility.ToJson(this.GetSavedPosition());
+        PlayerPrefs.SetString("FPSPosition", playerPosition);
+
+        string playerRotation = JsonUtility.ToJson(this.GetSavedRotation());
+        PlayerPrefs.SetString("FPSRotation", playerPosition);
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadPlayerPrefs()
+    {
+        Debug.Log("=========  LOAD PREFS ==========");
+        
+
+        int sceneIndex = PlayerPrefs.GetInt("SceneIndex");
+        this.SetSavedSceneIndex(sceneIndex);
+        Debug.Log("savedSceneIndex : " + this.GetSavedSceneIndex());
+
+        Vector3 playerPosition = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("FPSPosition"));
+        this.SetSavedPosition(playerPosition);
+
+        Quaternion playerRotation = JsonUtility.FromJson<Quaternion>(PlayerPrefs.GetString("FPSRotation"));
+        this.SetSavedRotation(playerRotation);
+
+        float mainVolume = PlayerPrefs.GetFloat("MainVolume");
+        this.SetVolume(mainVolume);
+    }
+
 
     /*
      * ===================================
@@ -93,17 +174,41 @@ public class MainManager : MonoBehaviour
      * 
      */
 
-    public void SetFPSLocation(string fpsLocation)
+
+    public void SetSavedPosition(Vector3 _savedPosition)
     {
-        if (fpsLocation != "")
+        if (_savedPosition != default(Vector3))
         {
-            FPSLocation = fpsLocation;
+            savedPosition = _savedPosition;
         }
     }
 
-    public string GetFPSLocation()
+    public Vector3 GetSavedPosition()
     {
-        return FPSLocation;
+        return savedPosition;
+    }
+
+    public void SetSavedRotation(Quaternion _savedRotation)
+    {
+        if (_savedRotation != default(Quaternion))
+        {
+            savedRotation = _savedRotation;
+        }
+    }
+
+    public Quaternion GetSavedRotation()
+    {
+        return savedRotation;
+    }
+
+    public void SetSavedSceneIndex(int _savedSceneIndex)
+    {
+        savedSceneIndex = _savedSceneIndex;
+    }
+
+    public int GetSavedSceneIndex()
+    {
+        return savedSceneIndex;
     }
 
     public void SetVolume(float _volume)

@@ -1,8 +1,10 @@
 using System;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -28,6 +30,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        //[SerializeField] private GameObject FPSAnchor; 
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -42,12 +46,38 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        private bool initScene = true;
+
+
         // Use this for initialization
         private void Start()
         {
+            /* =========  Test anchor ===========
+            Debug.Log("FirstPersonController > start");
+
+            float posX = FPSAnchor.transform.localPosition.x;
+            float posY = FPSAnchor.transform.localPosition.y;
+            float posZ = FPSAnchor.transform.localPosition.z;
+
+            transform.localPosition = new Vector3(posX, posY, posZ);
+            transform.rotation = FPSAnchor.transform.rotation;
+            ========================================*/
+
+            /*
+            Vector3 initPosition = MainManager.Instance.GetSavedPosition();
+            Quaternion initRotation = MainManager.Instance.GetSavedRotation();
+
+            if (initPosition != default(Vector3))
+            {
+                transform.localPosition = initPosition;
+                transform.localRotation = initRotation;
+            }
+            */
+
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
-            m_OriginalCameraPosition = m_Camera.transform.localPosition;
+            m_OriginalCameraPosition = m_Camera.transform.localPosition;            
+
             m_FovKick.Setup(m_Camera);
             m_HeadBob.Setup(m_Camera, m_StepInterval);
             m_StepCycle = 0f;
@@ -61,6 +91,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         private void Update()
         {
+            
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
@@ -81,6 +112,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+            
         }
 
 
@@ -96,17 +128,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             float speed;
             GetInput(out speed);
+
             // always move along the camera forward as it is the direction that it being aimed at
-            Vector3 desiredMove = transform.forward*m_Input.y + transform.right*m_Input.x;
+            Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
 
             // get a normal for the surface that is being touched to move along it
             RaycastHit hitInfo;
             Physics.SphereCast(transform.position, m_CharacterController.radius, Vector3.down, out hitInfo,
-                               m_CharacterController.height/2f);
+                               m_CharacterController.height / 2f);
+
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
-            m_MoveDir.x = desiredMove.x*speed;
-            m_MoveDir.z = desiredMove.z*speed;
+            m_MoveDir.x = desiredMove.x * speed;
+            m_MoveDir.z = desiredMove.z * speed;
 
 
             if (m_CharacterController.isGrounded)
@@ -123,12 +157,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
-                m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
+                m_MoveDir += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
             }
-            m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
+
+            if (initScene == false) {
+                m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
+            }
 
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
+
+            initScene = false;
+
         }
 
 

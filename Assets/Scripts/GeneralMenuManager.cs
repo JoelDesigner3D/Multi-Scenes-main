@@ -14,15 +14,11 @@ public class GeneralMenuManager : MonoBehaviour
 
     public void EnterToCabin()
     {
-        Debug.Log("GoTo Cabin");
         MainManager.Instance.GoTo("Cabin");
     }
 
     public void EnterToCabinToilet()
     {
-        //Debug.Log("GoTo Cabin");
-        //MainManager.Instance.SetFPSLocation("Toilet");
-        //MainManager.Instance.GoTo("Cabin");
         MainManager.Instance.GoTo("Cabin_Toilet");
     }
 
@@ -39,11 +35,6 @@ public class GeneralMenuManager : MonoBehaviour
     public void EnterToMorgue()
     {
         MainManager.Instance.GoTo("Morgue");
-    }
-
-    public void QuitGame()
-    {
-       MainManager.Instance.QuitGame();
     }
 
 }

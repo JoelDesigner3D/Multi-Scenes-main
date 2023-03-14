@@ -14,8 +14,17 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
+    [SerializeField] private GameObject FPSAnchor;
+
     Vector3 velocity;
     bool isGrounded;
+
+
+    private void Start()
+    {
+       // transform.localPosition = FPSAnchor.transform.localPosition;
+       // transform.rotation = FPSAnchor.transform.rotation;
+    }
 
 
     // Update is called once per frame

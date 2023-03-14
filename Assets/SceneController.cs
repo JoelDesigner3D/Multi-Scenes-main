@@ -2,30 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
 
     [SerializeField] GameObject toiletAnchor;
+    [SerializeField] GameObject FPS;
 
-    [SerializeField] GameObject player;
 
     // Start is called before the first frame update
     void Awake()
     {
-        MovePlayer();
+        //MovePlayer();
+    }
+
+    private void Start()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        MainManager.Instance.SetSavedSceneIndex(currentSceneIndex);
+        Debug.Log("SceneController > start > index = " + currentSceneIndex);
     }
 
     private void MovePlayer()
     {
-        string playerLocation = MainManager.Instance.GetFPSLocation();
+        //Vector3 initPosition = MainManager.Instance.GetSavedPosition();
+        //Quaternion initRotation = MainManager.Instance.GetSavedRotation();
 
-        if (playerLocation == "Toilet")
+        Vector3 initPosition = toiletAnchor.transform.position;
+        Quaternion initRotation = toiletAnchor.transform.rotation;
+
+        if (initPosition != default(Vector3))
         {
-            Debug.Log("playerLocation = " + playerLocation);
-            player.transform.position = new Vector3(toiletAnchor.transform.position.x, player.transform.position.y, toiletAnchor.transform.position.z);
-            MainManager.Instance.SetFPSLocation("");
+            FPS.transform.localPosition = initPosition;
+            FPS.transform.localRotation = initRotation;
         }
+        //string playerLocation = MainManager.Instance.GetFPSLocation();
+
+        // if (playerLocation == "Toilet")
+        // {
+        // Debug.Log("playerLocation = " + playerLocation);
+        // Debug.Log("SceneController > Awake > MovePlayer");
+        // FPS.transform.position = new Vector3(toiletAnchor.transform.position.x, FPS.transform.position.y, toiletAnchor.transform.position.z);
+        //MainManager.Instance.SetFPSLocation("");
+        // }
     }
 
 
