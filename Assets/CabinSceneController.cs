@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneController : MonoBehaviour
+public class CabinSceneController : MonoBehaviour
 {
 
     [SerializeField] GameObject toiletAnchor;

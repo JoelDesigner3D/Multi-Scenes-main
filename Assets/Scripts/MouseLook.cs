@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class MouseLook : MonoBehaviour
+public class NewMouseLook : MonoBehaviour
 {
 
     public float mouseSensitivity = 100f;
