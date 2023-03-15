@@ -1678,7 +1678,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2071352592}
+        m_TargetAssemblyTypeName: GeneralMenuManager, Assembly-CSharp
+        m_MethodName: ChangeVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1094210737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df11749fb4765bf45ac1cbc23988b35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slider: {fileID: 1092413067}
 --- !u!4 &1410704287
 Transform:
   m_ObjectHideFlags: 0
@@ -3050,6 +3063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: 0
+  sliderVolume: {fileID: 1092413067}
 --- !u!114 &2071352593
 MonoBehaviour:
   m_ObjectHideFlags: 0

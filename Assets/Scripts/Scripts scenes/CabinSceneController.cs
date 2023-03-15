@@ -7,46 +7,27 @@ using UnityEngine.SceneManagement;
 public class CabinSceneController : MonoBehaviour
 {
 
-    [SerializeField] GameObject toiletAnchor;
-    [SerializeField] GameObject FPS;
-
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        //MovePlayer();
-    }
+    [SerializeField] CharacterController player;
 
     private void Start()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         MainManager.Instance.SetSavedSceneIndex(currentSceneIndex);
         Debug.Log("SceneController > start > index = " + currentSceneIndex);
+
+        MovePlayer();
     }
 
     private void MovePlayer()
     {
-        //Vector3 initPosition = MainManager.Instance.GetSavedPosition();
-        //Quaternion initRotation = MainManager.Instance.GetSavedRotation();
+        Vector3 playerPosition = MainManager.Instance.GetSavedPosition();
+        Quaternion playerRotation = MainManager.Instance.GetSavedRotation();
 
-        Vector3 initPosition = toiletAnchor.transform.position;
-        Quaternion initRotation = toiletAnchor.transform.rotation;
-
-        if (initPosition != default(Vector3))
+        if (playerPosition != default(Vector3))
         {
-            FPS.transform.localPosition = initPosition;
-            FPS.transform.localRotation = initRotation;
+            player.transform.localRotation = playerRotation;
+            player.Move(playerPosition - player.transform.position);
         }
-        //string playerLocation = MainManager.Instance.GetFPSLocation();
-
-        // if (playerLocation == "Toilet")
-        // {
-        // Debug.Log("playerLocation = " + playerLocation);
-        // Debug.Log("SceneController > Awake > MovePlayer");
-        // FPS.transform.position = new Vector3(toiletAnchor.transform.position.x, FPS.transform.position.y, toiletAnchor.transform.position.z);
-        //MainManager.Instance.SetFPSLocation("");
-        // }
     }
-
 
 }

@@ -15,7 +15,11 @@ public class BackMenuManager : MonoBehaviour
     
     public void DisplayWelcomeMenu()
     {
+        //init player prefs
         MainManager.Instance.SetSavedSceneIndex(0);
+        MainManager.Instance.SetSavedPosition(default(Vector3));
+        MainManager.Instance.SetSavedRotation(default(Quaternion));
+
         mainSceneController.DisplayWelcomeMenu();
     }
     

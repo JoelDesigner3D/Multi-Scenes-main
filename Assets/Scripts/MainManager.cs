@@ -10,7 +10,7 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
-    private float volume;
+    private float volume = 3f;
     private Vector3 savedPosition;
     private Quaternion savedRotation;
     private int savedSceneIndex;
@@ -36,11 +36,11 @@ public class MainManager : MonoBehaviour
         Debug.Log("=========  NEW GAME ==========");
         //Debug.Log("MainManager > start activeScene = " + SceneManager.GetActiveScene().buildIndex);
         //Debug.Log("MainManager > start savedScene = " + savedSceneIndex);
-        //InitGame();
     }
 
     public void GoToGeneralMenu()
     {
+        PickUpPlayerPosition();
         GoTo("MenuGene");
     }
 
@@ -87,7 +87,23 @@ public class MainManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
        
     }
-    
+
+    private void PickUpPlayerPosition()
+    {
+        CharacterController player = FindFirstObjectByType<CharacterController>();
+
+        if (player == null)
+        {
+            return;
+        }
+
+        Vector3 playerPos = player.transform.position;
+        this.SetSavedPosition(playerPos);
+
+        Quaternion playerRot = player.transform.rotation;
+        this.SetSavedRotation(playerRot);
+    }
+
     public void QuitGame()
     {
        // Debug.Log("MainManager > QuitGame savedSceneIndex = "+ this.savedSceneIndex);
@@ -100,27 +116,7 @@ public class MainManager : MonoBehaviour
         //TODO afficher message bon débarras !
     }
 
-    /*
-    public void InitGame()
-    {
-        Debug.Log("MainManager > InitGame  savedSceneIndex : "+ savedSceneIndex);
 
-        LoadPlayerPrefs();
-
-        if (savedSceneIndex > 1)
-        {
-            // SceneManager.LoadScene(savedSceneIndex);
-            Debug.Log("Display BackMenu > savedSceneIndex = "+ savedSceneIndex);
-            mainSceneController.displayBackMenu();
-        }
-        else
-        {
-            Debug.Log("Display WelcomeMenu");
-            mainSceneController.displayWelcomeMenu();
-        }
-        
-    }
-    */
 
     public void GoToSceneByIndex(int index)
     {
@@ -151,7 +147,6 @@ public class MainManager : MonoBehaviour
     {
         Debug.Log("=========  LOAD PREFS ==========");
         
-
         int sceneIndex = PlayerPrefs.GetInt("SceneIndex");
         this.SetSavedSceneIndex(sceneIndex);
         Debug.Log("savedSceneIndex : " + this.GetSavedSceneIndex());
@@ -164,6 +159,18 @@ public class MainManager : MonoBehaviour
 
         float mainVolume = PlayerPrefs.GetFloat("MainVolume");
         this.SetVolume(mainVolume);
+    }
+
+    public void ChangeVolume()
+    {
+
+        float _volume = this.GetVolume();
+
+        AudioSource[] audioSourceList = FindObjectsOfType<AudioSource>(true);
+        for (int i = 0; i< audioSourceList.Length; i++ )
+        {
+            audioSourceList[i].volume = _volume;
+        }
     }
 
 
@@ -219,6 +226,8 @@ public class MainManager : MonoBehaviour
         }
 
         this.volume = _volume;
+
+        ChangeVolume();
     }
 
     public float GetVolume()

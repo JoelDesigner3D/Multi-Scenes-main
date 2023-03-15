@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GeneralMenuManager : MonoBehaviour
 {
 
     public float volume;
+    [SerializeField] Slider sliderVolume;
 
     public void GoToWelcomeMenu()
     {
@@ -35,6 +37,12 @@ public class GeneralMenuManager : MonoBehaviour
     public void EnterToMorgue()
     {
         MainManager.Instance.GoTo("Morgue");
+    }
+
+    public void ChangeVolume()
+    {
+        float volume = sliderVolume.value;
+        MainManager.Instance.SetVolume(volume);
     }
 
 }
