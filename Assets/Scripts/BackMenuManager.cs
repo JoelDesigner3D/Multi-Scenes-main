@@ -15,6 +15,7 @@ public class BackMenuManager : MonoBehaviour
     
     public void DisplayWelcomeMenu()
     {
+        MainManager.Instance.SetSavedSceneIndex(0);
         mainSceneController.DisplayWelcomeMenu();
     }
     

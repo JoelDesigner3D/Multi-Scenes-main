@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
@@ -44,7 +45,7 @@ using Random = UnityEngine.Random;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
-        private bool initScene = true;
+        //private bool initScene = true;
 
 
         // Use this for initialization
@@ -91,19 +92,27 @@ using Random = UnityEngine.Random;
         {
 
             RotateView();
+
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
             }
 
+
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
+
+                Debug.Log("m_PreviouslyGrounded = "+ m_PreviouslyGrounded);
+
                 StartCoroutine(m_JumpBob.DoBobCycle());
                 PlayLandingSound();
                 m_MoveDir.y = 0f;
                 m_Jumping = false;
+                //m_PreviouslyGrounded = true;
+                
             }
+
             if (!m_CharacterController.isGrounded && !m_Jumping && m_PreviouslyGrounded)
             {
                 m_MoveDir.y = 0f;
@@ -159,15 +168,15 @@ using Random = UnityEngine.Random;
                 m_MoveDir += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
             }
 
-            if (initScene == false)
-            {
+            //if (initScene == false)
+            //{
                 m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
-            }
+            //}
 
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
-            initScene = false;
+            //initScene = false;
 
         }
 
@@ -272,7 +281,7 @@ using Random = UnityEngine.Random;
 
         private void RotateView()
         {
-            m_MouseLook.LookRotation(transform, m_Camera.transform);  // joel
+            m_MouseLook.LookRotation(transform, m_Camera.transform);
         }
 
         
