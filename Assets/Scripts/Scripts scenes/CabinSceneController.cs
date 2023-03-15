@@ -16,6 +16,8 @@ public class CabinSceneController : MonoBehaviour
         Debug.Log("SceneController > start > index = " + currentSceneIndex);
 
         MovePlayer();
+
+        MainManager.Instance.ChangeVolume();
     }
 
     private void MovePlayer()
