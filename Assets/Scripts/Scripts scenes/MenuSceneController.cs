@@ -17,6 +17,7 @@ public class MenuSceneController : MonoBehaviour
 
         MainManager.Instance.ChangeVolume();
 
+        //Update slider state
         slider.value = MainManager.Instance.GetVolume();
     }
 }

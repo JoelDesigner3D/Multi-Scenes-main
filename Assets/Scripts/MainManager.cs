@@ -83,9 +83,9 @@ public class MainManager : MonoBehaviour
                 break;
         }
 
-        newGame = false;
         SceneManager.LoadScene(sceneIndex);
-       
+        newGame = false;
+
     }
 
     private void PickUpPlayerPosition()

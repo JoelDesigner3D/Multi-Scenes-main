@@ -14,7 +14,6 @@ public class MainSceneController : MonoBehaviour
     {
         InitMenus();
         InitGame();
-        //MainManager.Instance.InitGame();
     }
 
     private void InitMenus()

@@ -10,10 +10,14 @@ public class MorgueSceneController : MonoBehaviour
     private void Start()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (MainManager.Instance.newGame)
+        {
+            MovePlayer();
+        }
+
         MainManager.Instance.SetSavedSceneIndex(currentSceneIndex);
         Debug.Log("SceneController > start > index = " + currentSceneIndex);
-
-        MovePlayer();
 
         MainManager.Instance.ChangeVolume();
     }
