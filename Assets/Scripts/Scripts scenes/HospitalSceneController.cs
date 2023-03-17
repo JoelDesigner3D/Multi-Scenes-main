@@ -30,8 +30,12 @@ public class HospitalSceneController : MonoBehaviour
 
         if (playerPosition != default(Vector3))
         {
-            player.transform.localRotation = playerRotation;
-            player.Move(playerPosition - player.transform.position);
+            player.enabled = false;
+            player.transform.position = playerPosition;
+            player.enabled = true;
+
+            //Important : do rotation after moving
+            player.transform.rotation = playerRotation;
         }
     }
 }

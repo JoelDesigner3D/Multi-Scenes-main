@@ -24,6 +24,8 @@ public class MainSceneController : MonoBehaviour
 
     public void InitGame()
     {
+        MainManager.Instance.SetVolume(MainManager.Instance.GetVolume());
+
         if (MainManager.Instance.newGame == true)
         {
             MainManager.Instance.LoadPlayerPrefs();
@@ -35,7 +37,6 @@ public class MainSceneController : MonoBehaviour
         // MainMenu = 0, GeneralMenu index = 1
         if (savedScene > 1)
         {
-            // SceneManager.LoadScene(savedSceneIndex);
             Debug.Log("Display BackMenu > savedSceneIndex = " + savedScene);
             DisplayBackMenu();
         }

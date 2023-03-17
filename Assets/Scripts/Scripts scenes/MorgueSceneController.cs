@@ -26,11 +26,23 @@ public class MorgueSceneController : MonoBehaviour
     {
         Vector3 playerPosition = MainManager.Instance.GetSavedPosition();
         Quaternion playerRotation = MainManager.Instance.GetSavedRotation();
+        Debug.Log("Before");
+        Debug.Log("MovePlayer GetSavedPosition : " + JsonUtility.ToJson(playerPosition));
+        Debug.Log("MovePlayer player position : " + JsonUtility.ToJson(player.transform.position));
 
         if (playerPosition != default(Vector3))
         {
-            player.transform.localRotation = playerRotation;
-            player.Move(playerPosition - player.transform.position);
+            player.enabled = false;
+            player.transform.position = playerPosition;
+            player.enabled = true;
+            //player.Move(playerPosition - player.transform.position);
+
+            //Important : do rotation after moving
+            player.transform.rotation = playerRotation;
         }
+
+        Debug.Log("After");
+        Debug.Log("MovePlayer GetSavedPosition : " + JsonUtility.ToJson(playerPosition));
+        Debug.Log("MovePlayer player current position : " + JsonUtility.ToJson(player.transform.position));
     }
 }

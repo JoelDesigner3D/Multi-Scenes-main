@@ -106,14 +106,12 @@ public class MainManager : MonoBehaviour
 
     public void QuitGame()
     {
-       // Debug.Log("MainManager > QuitGame savedSceneIndex = "+ this.savedSceneIndex);
-
         SavePlayerPrefs();
 
         //Application.Quit();
         EditorApplication.ExecuteMenuItem("Edit/Play");
 
-        //TODO afficher message bon débarras !
+        // TODO afficher message "bon débarras !"
     }
 
 
@@ -136,9 +134,11 @@ public class MainManager : MonoBehaviour
 
         string playerPosition = JsonUtility.ToJson(this.GetSavedPosition());
         PlayerPrefs.SetString("FPSPosition", playerPosition);
+        Debug.Log("playerPosition : " + playerPosition);
 
         string playerRotation = JsonUtility.ToJson(this.GetSavedRotation());
-        PlayerPrefs.SetString("FPSRotation", playerPosition);
+        PlayerPrefs.SetString("FPSRotation", playerRotation);
+        Debug.Log("playerRotation : " + playerRotation);
 
         PlayerPrefs.Save();
     }
@@ -153,9 +153,11 @@ public class MainManager : MonoBehaviour
 
         Vector3 playerPosition = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("FPSPosition"));
         this.SetSavedPosition(playerPosition);
+        Debug.Log("playerPosition : " + playerPosition);
 
         Quaternion playerRotation = JsonUtility.FromJson<Quaternion>(PlayerPrefs.GetString("FPSRotation"));
         this.SetSavedRotation(playerRotation);
+        Debug.Log("playerRotation : " + playerRotation);
 
         float mainVolume = PlayerPrefs.GetFloat("MainVolume");
         this.SetVolume(mainVolume);
