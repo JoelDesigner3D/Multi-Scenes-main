@@ -8,10 +8,9 @@ public class BackMenuManager : MonoBehaviour
 
     public void GoToSavedScene()
     {
-        MainManager.Instance.LoadPlayerPrefs();
         int index = MainManager.Instance.GetSavedSceneIndex();
         MainManager.Instance.GoToSceneByIndex(index);
-        //MainManager.Instance.SetSavedSceneIndex(0);
+        MainManager.Instance.SetSavedSceneIndex(0);
     }
     
     public void DisplayWelcomeMenu()
