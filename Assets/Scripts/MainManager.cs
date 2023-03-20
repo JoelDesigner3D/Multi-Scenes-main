@@ -108,10 +108,13 @@ public class MainManager : MonoBehaviour
     {
         SavePlayerPrefs();
 
-        //Application.Quit();
-        EditorApplication.ExecuteMenuItem("Edit/Play");
+#if UNITY_EDITOR
+        //EditorApplication.ExecuteMenuItem("Edit/Play");
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+#endif
 
-        // TODO afficher message "bon débarras !"
     }
 
 
