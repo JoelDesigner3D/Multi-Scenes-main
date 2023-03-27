@@ -150,8 +150,18 @@ public class MainManager : MonoBehaviour
 
     public void LoadPlayerPrefs()
     {
+        // Used for testing
+        //PlayerPrefs.DeleteAll();
+
         Debug.Log("=========  LOAD PREFS ==========");
-        
+
+        if (!PlayerPrefs.HasKey("SceneIndex"))
+        {
+            Debug.Log("LoadPlayerPrefs > The key " + "SceneIndex" + " not exists");
+            this.SetSavedSceneIndex(0);
+            return;
+        }
+
         int sceneIndex = PlayerPrefs.GetInt("SceneIndex");
         this.SetSavedSceneIndex(sceneIndex);
         Debug.Log("savedSceneIndex : " + this.GetSavedSceneIndex());
